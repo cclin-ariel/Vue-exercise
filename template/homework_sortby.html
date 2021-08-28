@@ -132,22 +132,29 @@
                   <th>品名</th>
                   <th
                     class="click"
-                    @click="data = orderedByPrice; changeReverse(); setType('price')"
+                    @click="changeReverse(); type = 'price'"
                   >
                     價格
                     <!-- isReverse 為反轉 className -->
-                    <span class="icon" :class="{'inverse': isReverse }" >
-                      <i class="fas fa-angle-up text-success" v-if="getType == 'price'"></i>
+                    <span class="icon" :class="{'inverse': isReverse }" v-if="type=='price'">
+                      <i
+                        class="fas fa-angle-up text-success"
+                      ></i>
                     </span>
                   </th>
-                  <th class="click"@click="data = orderedByDate; changeReverse(); setType('date')">
+                  <th
+                    class="click"
+                    @click="changeReverse(); type = 'expiryDate'"
+                  >
                     到期日
-                    <span class="icon" :class="{'inverse': isReverse }">
-                      <i class="fas fa-angle-up text-success" v-if="getType == 'date'"></i>
+                    <span class="icon" :class="{'inverse': isReverse }" v-if="type=='expiryDate'">
+                      <i
+                        class="fas fa-angle-up text-success"
+                      ></i>
                     </span>
                   </th>
                 </tr>
-                <tr v-for="(item, key) in data" :key="key">
+                <tr v-for="(item, key) in orderedData" :key="key">
                   <td>{{ item.name }}</td>
                   <td>{{ item.price }}</td>
                   <td>{{ item.expiryDate }}</td>
@@ -204,37 +211,29 @@
               },
               // 請在此撰寫 JavaScript
               computed: {
-                orderedByPrice: function () {
+                orderedData: function () {
                   let vm = this;
+                  if(vm.type=='')return vm.data;
+                  if(vm.type=='price'){
                   return vm.data.sort((a, b) => {
                     a = a.price;
                     b = b.price;
                     return vm.isReverse ? a - b : b - a;
-                  });
-                },
-                orderedByDate: function () {
-                  let vm = this;
-                  return vm.data.sort((a, b) => {
-                    a = a.expiryDate;
-                    b = b.expiryDate;
-                    return vm.isReverse ? a - b : b - a;
-                  });
-                },
-                getType:function(){
-                  let vm = this;
-                  return vm.type;
+                  })}
+                  if(vm.type=='expiryDate'){
+                    return vm.data.sort((a, b) => {
+                      a = a.expiryDate;
+                      b = b.expiryDate;
+                      return vm.isReverse ? a - b : b - a;
+                  })
                 }
-              },
+              }},
               methods: {
                 changeReverse: function () {
                   let vm = this;
                   vm.isReverse = !vm.isReverse;
-                },
-                setType:function(type){
-                  let vm = this;
-                  vm.type = type;
                 }
-              },
+              }
             });
           </script>
 
