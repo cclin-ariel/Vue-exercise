@@ -14,9 +14,12 @@
         </ul>
       </div>
     </nav>
-    <img src="./assets/logo.png" />
     <!-- <HelloWorld/> -->
-    <router-view></router-view>
+
+    <router-view name="menu"></router-view>
+    <div class="container">
+        <router-view></router-view>
+    </div>
   </div>
 </template>
 
